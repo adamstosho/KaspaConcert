@@ -12,8 +12,6 @@ const nextConfig = {
   },
   // Enable compression
   compress: true,
-  // Production optimizations
-  swcMinify: true,
   // Security headers
   async headers() {
     return [
