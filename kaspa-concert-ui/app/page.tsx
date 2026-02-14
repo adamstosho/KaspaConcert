@@ -45,7 +45,7 @@ export default function LandingPage() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success-green opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-success-green shadow-[0_0_10px_rgba(34,197,94,0.6)]"></span>
                 </span>
-                <span className="text-xs font-semibold tracking-widest text-foreground/90 uppercase font-mono">Kaspa Mainnet Live</span>
+                <span className="text-xs font-semibold tracking-widest text-foreground/90 uppercase font-mono">Kaspa Testnet Live</span>
                 <div className="w-px h-3 bg-white/20" />
                 <span className="text-xs text-muted-foreground font-mono">100ms Block Time</span>
               </div>
