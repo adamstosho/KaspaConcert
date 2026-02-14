@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Definitions for animations -->
+  <defs>
+    <style>
+      .kaspa-line {
+        stroke: #4F7CFF;
+        stroke-width: 8;
+        stroke-linecap: round;
+        stroke-dasharray: 400;
+        stroke-dashoffset: 400;
+        animation: drawLine 2s ease-out forwards;
+      }
+      .kaspa-node {
+        fill: #00FFF7;
+        animation: pulseNode 3s infinite ease-in-out;
+      }
+      
+      @keyframes drawLine {
+        to { stroke-dashoffset: 0; }
+      }
+      @keyframes pulseNode {
+        0%, 100% { r: 6; opacity: 1; }
+        50% { r: 8; opacity: 0.7; }
+      }
+    </style>
+  </defs>
+
+  <!-- Centered Abstract K / Network Icon -->
+  <g>
+    <!-- Vertical Line -->
+    <path d="M35 20 V80" class="kaspa-line" style="animation-delay: 0s;" />
+    
+    <!-- Upper Diagonal -->
+    <path d="M35 50 L65 20" class="kaspa-line" style="animation-delay: 0.5s;" />
+    
+    <!-- Lower Diagonal -->
+    <path d="M35 50 L65 80" class="kaspa-line" style="animation-delay: 0.5s;" />
+    
+    <!-- Connection Nodes -->
+    <circle cx="35" cy="20" r="6" class="kaspa-node" style="animation-delay: 0s;" />
+    <circle cx="35" cy="50" r="6" class="kaspa-node" style="animation-delay: 0.5s;" />
+    <circle cx="35" cy="80" r="6" class="kaspa-node" style="animation-delay: 1s;" />
+    <circle cx="65" cy="20" r="6" class="kaspa-node" style="animation-delay: 1.5s;" />
+    <circle cx="65" cy="80" r="6" class="kaspa-node" style="animation-delay: 1.5s;" />
+  </g>
+</svg>

@@ -1,0 +1,29 @@
+{
+  "name": "kaspa-concert-api",
+  "version": "1.0.0",
+  "description": "KaspaConcert backend: session management, WebSocket gateway, transaction monitor",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "kaspa",
+    "kaspathon",
+    "live-stream",
+    "tipping"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.4",
+    "express": "^4.21.0",
+    "express-rate-limit": "^7.4.0",
+    "socket.io": "^4.8.0",
+    "uuid": "^10.0.0"
+  }
+}

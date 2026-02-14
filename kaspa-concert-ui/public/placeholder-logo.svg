@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100" fill="none">
+  <defs>
+    <style>
+      /* Main Structure */
+      .kaspa-structure {
+        stroke: #4F7CFF;
+        stroke-width: 6;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        opacity: 0.8;
+      }
+      
+      /* Data Packets (Flowing down the lines) */
+      .kaspa-packet {
+        fill: #00FFF7;
+        opacity: 0;
+        animation: flowPacket 3s infinite cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      /* Connection Nodes */
+      .kaspa-node {
+        fill: #4F7CFF;
+        stroke: #00FFF7;
+        stroke-width: 2;
+        r: 4;
+        animation: pulseNode 3s infinite ease-in-out;
+      }
+      
+      /* Text Styles */
+      .kaspa-text {
+        font-family: 'Inter', sans-serif;
+        font-weight: 800;
+        fill: #ffffff;
+      }
+      .kaspa-subtext {
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        fill: #00FFF7;
+        letter-spacing: 2px;
+      }
+
+      /* Animations */
+      @keyframes flowPacket {
+        0% { transform: translateY(0); opacity: 0; }
+        20% { opacity: 1; }
+        80% { opacity: 1; }
+        100% { transform: translateY(60px); opacity: 0; }
+      }
+      
+      @keyframes pulseNode {
+        0%, 100% { r: 4; stroke-width: 2; opacity: 1; }
+        50% { r: 6; stroke-width: 4; opacity: 0.8; }
+      }
+      
+      /* Staggered starts for packets */
+      .packet-1 { animation-delay: 0s; }
+      .packet-2 { animation-delay: 1.5s; }
+      .packet-3 { animation-delay: 0.8s; }
+    </style>
+  </defs>
+
+  <!-- Network Icon Group -->
+  <g transform="translate(20, 10)">
+    <!-- Main Lines -->
+    <path d="M20 10 L20 70" class="kaspa-structure" />
+    <path d="M20 40 L50 10" class="kaspa-structure" />
+    <path d="M20 40 L50 70" class="kaspa-structure" />
+    
+    <!-- Animated Data Packets Flowing -->
+    <!-- Packet on Vertical Line -->
+    <circle cx="20" cy="10" r="3" class="kaspa-packet packet-1" />
+    <!-- Packet on Upper Diagonal (moving diagonally is hard with simple TranslateY, so we simulate flow with fading circles at key points or use path animation) -->
+    <!-- Let's keep it simple: Pulsing intersections for now to ensure robustness, but effectively we want 'flow' along the structure -->
+    
+    <!-- Redoing Flow: Path based flow is best but CSS offset is simpler. Let's use dashoffset again but for a 'highlight' overlay -->
+    <path d="M20 10 L20 70" stroke="#00FFF7" stroke-width="6" stroke-linecap="round" stroke-dasharray="10 60" stroke-dashoffset="70" opacity="0.6">
+        <animate attributeName="stroke-dashoffset" from="70" to="0" dur="2s" repeatCount="indefinite" />
+    </path>
+    <path d="M20 40 L50 10" stroke="#00FFF7" stroke-width="6" stroke-linecap="round" stroke-dasharray="10 50" stroke-dashoffset="50" opacity="0.6">
+        <animate attributeName="stroke-dashoffset" from="50" to="0" dur="2.5s" repeatCount="indefinite" />
+    </path>
+    <path d="M20 40 L50 70" stroke="#00FFF7" stroke-width="6" stroke-linecap="round" stroke-dasharray="10 50" stroke-dashoffset="50" opacity="0.6">
+        <animate attributeName="stroke-dashoffset" from="50" to="0" dur="2.2s" repeatCount="indefinite" />
+    </path>
+
+    <!-- Nodes at key intersections -->
+    <circle cx="20" cy="10" class="kaspa-node" />
+    <circle cx="20" cy="40" class="kaspa-node" style="animation-delay: 0.5s;" />
+    <circle cx="20" cy="70" class="kaspa-node" style="animation-delay: 1s;" />
+    <circle cx="50" cy="10" class="kaspa-node" style="animation-delay: 1.5s;" />
+    <circle cx="50" cy="70" class="kaspa-node" style="animation-delay: 2s;" />
+  </g>
+
+  <!-- Brand Name -->
+  <text x="80" y="55" font-size="34" class="kaspa-text">KaspaConcert</text>
+  <text x="80" y="80" font-size="12" class="kaspa-subtext">REAL-TIME TIPPING</text>
+</svg>

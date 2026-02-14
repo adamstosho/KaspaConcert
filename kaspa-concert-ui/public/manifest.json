@@ -1,0 +1,24 @@
+{
+  "name": "KaspaConcert",
+  "short_name": "KaspaConcert",
+  "description": "Real-time live-stream tipping powered by Kaspa blockchain. Tip creators instantly during live events.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1A1A1A",
+  "theme_color": "#4F7CFF",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/placeholder-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
