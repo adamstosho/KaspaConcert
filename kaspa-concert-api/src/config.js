@@ -23,4 +23,12 @@ config.corsOrigins = config.corsOrigin
   .map((o) => o.trim())
   .filter(Boolean)
 
+// Explicitly add the production frontend URL to the allowed origins
+if (!config.corsOrigins.includes('https://kaspa-concert.vercel.app')) {
+  config.corsOrigins.push('https://kaspa-concert.vercel.app')
+}
+if (!config.corsOrigins.includes('https://kaspa-concert.vercel.app/')) {
+  config.corsOrigins.push('https://kaspa-concert.vercel.app/') // Just in case
+}
+
 export default config

@@ -59,7 +59,7 @@ export default function LandingPage() {
               </h1>
 
               <p className="text-lg sm:text-xl text-muted-foreground/80 max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
-                The world's first <span className="text-foreground font-medium">decentralized streaming economy</span>.
+                The world&apos;s first <span className="text-foreground font-medium">decentralized streaming economy</span>.
                 Accept micro-tips instantly. Zero fees. 100% Non-custodial.
               </p>
 
@@ -142,7 +142,7 @@ export default function LandingPage() {
             <div className="text-center space-y-4 max-w-2xl mx-auto">
               <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-foreground">Why KaspaConcert?</h2>
               <p className="text-lg text-muted-foreground font-light">
-                Built on the world's fastest, open-source, decentralized & fully scalable Layer-1.
+                Built on the world&apos;s fastest, open-source, decentralized & fully scalable Layer-1.
               </p>
             </div>
 

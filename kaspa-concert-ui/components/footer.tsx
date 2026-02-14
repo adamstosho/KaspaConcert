@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 
 export function Footer() {
   return (
@@ -10,9 +11,11 @@ export function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <img
+              <Image
                 src="/placeholder-logo.svg"
                 alt="KaspaConcert"
+                width={40}
+                height={40}
                 className="h-10 w-auto"
               />
             </div>

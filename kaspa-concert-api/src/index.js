@@ -40,6 +40,17 @@ app.get('/health', (req, res) => {
   res.json({ ok: true, service: 'kaspa-concert-api', timestamp: new Date().toISOString() })
 })
 
+// Root endpoint for easy verification
+app.get('/', (req, res) => {
+  console.log('KaspaConcert API: Root endpoint hit - Backend is working!')
+  res.json({
+    ok: true,
+    message: 'KaspaConcert API is running!',
+    service: 'kaspa-concert-api',
+    timestamp: new Date().toISOString()
+  })
+})
+
 app.use('/sessions', sessionsRouter)
 
 // Load persisted data on startup

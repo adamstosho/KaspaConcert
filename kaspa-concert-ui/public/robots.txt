@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Disallow admin or private routes if any
+# Disallow: /api/
+
+# Sitemap location
+Sitemap: https://kaspaconcert.com/sitemap.xml

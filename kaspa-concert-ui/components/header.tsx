@@ -1,10 +1,9 @@
-'use client'
-
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { useTheme } from 'next-themes'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { KaspaButton } from './kaspa-button'
 import { useWallet } from '@/context/wallet-context'
 import { Modal } from './modal'
@@ -76,9 +75,11 @@ export function Header({ showWalletConnect = true }: HeaderProps) {
         <div className="flex items-center justify-between">
           {/* Logo & Brand */}
           <Link href={isConnected ? '/sessions' : '/'} className="flex items-center gap-3 group z-50 relative">
-            <img
+            <Image
               src={isDark ? "/placeholder-logo.svg" : "/placeholder-logo-light.svg"}
               alt="KaspaConcert Logo"
+              width={40}
+              height={40}
               className="h-10 w-auto group-hover:scale-105 transition-transform"
             />
           </Link>

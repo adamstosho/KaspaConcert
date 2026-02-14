@@ -9,5 +9,16 @@
     "endedAt": null,
     "totalTips": 0,
     "tipsCount": 0
+  },
+  "sess_551682e764ed": {
+    "id": "sess_551682e764ed",
+    "title": "Ade life",
+    "streamUrl": "https://www.youtube.com/embed/hYip_Vuv8J0",
+    "creatorAddress": "kaspatest:qru3uqundeynxdemh2kxdjcswltvr2xk7zzdlm23dcawcfj5eflmqndvzfksp",
+    "status": "live",
+    "createdAt": "2026-02-14T12:37:18.668Z",
+    "endedAt": null,
+    "totalTips": 0,
+    "tipsCount": 0
   }
 }

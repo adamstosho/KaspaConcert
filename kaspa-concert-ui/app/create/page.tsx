@@ -40,7 +40,7 @@ export default function CreateSessionPage() {
         })
       }
     }
-  }, [isConnected, address])
+  }, [isConnected, address, errors.kaspaAddress])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
