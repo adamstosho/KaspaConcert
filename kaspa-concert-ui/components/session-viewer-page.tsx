@@ -167,32 +167,36 @@ export function SessionViewerPage({ sessionId }: SessionViewerPageProps) {
     return () => { cancelled = true }
   }, [sessionId])
 
-  // Fetch persisted tips on page load
+  // Fetch persisted tips on page load (newest first)
   useEffect(() => {
     let cancelled = false
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'
 
     fetch(`${apiUrl}/sessions/${sessionId}/tips`)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.ok ? res.json() : { tips: [] })
+      .then((data) => {
         if (cancelled) return
         if (data.tips && Array.isArray(data.tips)) {
-          const persistedTips: Tip[] = data.tips.map((tip: any) => ({
-            id: tip.tipId,
-            amount: tip.amount,
-            from: tip.from,
-            timestamp: new Date(tip.timestamp),
-            status: tip.status,
-            txHash: tip.txHash,
-          }))
+          const persistedTips: Tip[] = data.tips
+            .map((tip: { tipId: string; amount: number; from: string; timestamp: string; status: string; txHash?: string }) => ({
+              id: tip.tipId,
+              amount: tip.amount,
+              from: tip.from,
+              timestamp: new Date(tip.timestamp),
+              status: tip.status as 'pending' | 'confirmed',
+              txHash: tip.txHash,
+            }))
+            .sort((a: Tip, b: Tip) => b.timestamp.getTime() - a.timestamp.getTime())
           setTips(persistedTips)
         }
       })
-      .catch(err => {
-        console.error('Failed to load persisted tips:', err)
+      .catch((err) => {
+        if (!cancelled) console.error('Failed to load persisted tips:', err)
       })
 
-    return () => { cancelled = true }
+    return () => {
+      cancelled = true
+    }
   }, [sessionId])
 
   const handleWalletConnect = useCallback(

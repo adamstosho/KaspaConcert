@@ -111,14 +111,15 @@ export async function getKasWareBalance(): Promise<number> {
     try {
         const balanceData = await window.kasware!.getBalance()
 
-        // Handle null or invalid response
+        // Handle null or invalid response - throw so caller doesn't overwrite with 0
         if (!balanceData || typeof balanceData.total !== 'number') {
             console.warn('KasWare returned invalid balance data:', balanceData)
-            return 0
+            throw new Error('Invalid balance data from wallet')
         }
 
         return balanceData.total / 100000000 // Convert from sompi to KAS
     } catch (error) {
+        if (error instanceof Error && error.message.includes('Invalid balance data')) throw error
         console.error('Failed to get balance:', error)
         throw new Error('Failed to get wallet balance')
     }

@@ -19,7 +19,7 @@ export function Header({ showWalletConnect = true }: HeaderProps) {
   const { theme, setTheme } = useTheme()
   const isDark = theme !== 'light'
   const pathname = usePathname()
-  const { isConnected, address, connect, connectManualAddress, disconnect, isLoading, balance, error } = useWallet()
+  const { isConnected, address, connect, connectManualAddress, disconnect, isLoading, balance, method, error } = useWallet()
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
@@ -114,7 +114,9 @@ export function Header({ showWalletConnect = true }: HeaderProps) {
                         </span>
                       </div>
                       <div className="h-4 w-px bg-white/10 mx-1" />
-                      <span className="text-xs font-bold text-kaspa-blue">{balance ? balance.toLocaleString() : '0'} KAS</span>
+                      <span className="text-xs font-bold text-kaspa-blue">
+                          {balance != null ? balance.toLocaleString() : method === 'extension' ? '…' : '—'} KAS
+                        </span>
                     </div>
                   </div>
                 ) : (
@@ -249,7 +251,9 @@ export function Header({ showWalletConnect = true }: HeaderProps) {
                               <p className="text-sm font-mono font-medium break-all text-white">{address}</p>
                               <div className="mt-3 flex items-center justify-between">
                                 <span className="text-xs text-zinc-500">Balance</span>
-                                <span className="text-sm text-kaspa-blue font-bold">{balance ? balance.toLocaleString() : '0'} KAS</span>
+                                <span className="text-sm text-kaspa-blue font-bold">
+                                {balance != null ? balance.toLocaleString() : method === 'extension' ? '…' : '—'} KAS
+                              </span>
                               </div>
                             </div>
                             <KaspaButton
@@ -300,6 +304,7 @@ export function Header({ showWalletConnect = true }: HeaderProps) {
           connected={isConnected}
           address={address || undefined}
           balance={balance}
+          method={method}
           isLoading={isLoading}
           error={error}
         />

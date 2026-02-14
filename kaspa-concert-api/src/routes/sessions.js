@@ -7,7 +7,7 @@ import { Router } from 'express'
 import config from '../config.js'
 import { createSession, getSession, listSessions, endSession } from '../services/sessionService.js'
 import { validateCreateSession } from '../services/validationLayer.js'
-import { getTips } from '../services/tipService.js'
+import { getTips, getSessionTotalsFromTips } from '../services/tipService.js'
 
 const router = Router()
 const baseUrl = config.frontendOrigin.replace(/\/$/, '')
@@ -45,12 +45,21 @@ router.post('/', (req, res) => {
 
 /**
  * GET /sessions – List sessions (for browse page).
+ * totalTips and tipsCount are derived from persisted tips so the list is always accurate.
  * Query: ?status=live|ended&limit=50
  */
 router.get('/', (req, res) => {
   const status = req.query.status || undefined
   const limit = Math.min(Number(req.query.limit) || 50, 100)
-  const sessions = listSessions({ status, limit })
+  const raw = listSessions({ status, limit })
+  const sessions = raw.map((s) => {
+    const { totalTips, tipsCount } = getSessionTotalsFromTips(s.id)
+    return {
+      ...s,
+      totalTips,
+      tipsCount,
+    }
+  })
   res.json({ sessions })
 })
 
@@ -81,6 +90,7 @@ router.patch('/:id/end', (req, res) => {
 
 /**
  * GET /sessions/:id – Get one session by ID.
+ * totalTips and tipsCount are derived from persisted tips so they stay in sync.
  * IMPORTANT: This generic route must come LAST to avoid catching specific routes
  */
 router.get('/:id', (req, res) => {
@@ -88,7 +98,12 @@ router.get('/:id', (req, res) => {
   if (!session) {
     return res.status(404).json({ error: 'Session not found' })
   }
-  res.json(session)
+  const { totalTips, tipsCount } = getSessionTotalsFromTips(session.id)
+  res.json({
+    ...session,
+    totalTips,
+    tipsCount,
+  })
 })
 
 export default router

@@ -11,6 +11,7 @@ interface WalletConnectProps {
   connected?: boolean
   address?: string
   balance?: number | null
+  method?: 'extension' | 'manual' | null
   isLoading?: boolean
   error?: string | null
 }
@@ -22,6 +23,7 @@ export function WalletConnect({
   connected,
   address,
   balance,
+  method,
   isLoading,
   error,
 }: WalletConnectProps) {
@@ -62,7 +64,9 @@ export function WalletConnect({
             ) : (
               <div className="bg-kaspa-dark rounded-kaspa p-3">
                 <p className="text-xs text-muted-foreground mb-1">Balance</p>
-                <p className="text-sm text-muted-foreground">— (view-only address)</p>
+                <p className="text-sm text-muted-foreground">
+                  {method === 'extension' ? 'Loading…' : '— (view-only address)'}
+                </p>
               </div>
             )}
           </div>

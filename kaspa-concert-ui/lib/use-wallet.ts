@@ -62,28 +62,46 @@ export function useWallet(): UseWalletReturn {
       if (!storedMethod || !storedAddress) return
 
       if (storedMethod === 'extension') {
-        // Set state immediately to show "connected" UI
+        // Set state immediately to show "connected" UI (balance stays null until fetched)
         setMethod('extension')
         setAddress(storedAddress)
         setIsConnected(true)
 
-        // Retry loop to wait for KasWare injection
-        let attempts = 0
-        const maxAttempts = 10 // 1 second total
-        const checkWallet = () => {
-          if (window.kasware) {
-            getKasWareBalance()
-              .then(setBalance)
-              .catch((err) => console.warn('Failed to refresh balance on init:', err))
-          } else if (attempts < maxAttempts) {
-            attempts++
-            setTimeout(checkWallet, 100)
-          } else {
-            console.warn('KasWare extension not detected after waiting')
+        // Retry: wait for KasWare injection, then fetch balance with backoff
+        const delays = [0, 200, 500, 1000, 2000, 3000]
+        let attempt = 0
+        let zeroRetried = false
+        const tryBalance = () => {
+          if (!window.kasware) {
+            if (attempt < delays.length - 1) {
+              setTimeout(tryBalance, delays[attempt])
+              attempt++
+            }
+            return
           }
+          getKasWareBalance()
+            .then((b) => {
+              // Extension sometimes returns 0 before sync; retry once after 2s
+              if (b === 0 && !zeroRetried) {
+                zeroRetried = true
+                setTimeout(() => {
+                  getKasWareBalance()
+                    .then((b2) => setBalance(b2))
+                    .catch(() => setBalance(0))
+                }, 2000)
+                return
+              }
+              setBalance(b)
+            })
+            .catch((err) => {
+              console.warn('Failed to refresh balance on init:', err)
+              if (attempt < delays.length - 1) {
+                attempt++
+                setTimeout(tryBalance, delays[Math.min(attempt, delays.length - 1)])
+              }
+            })
         }
-
-        checkWallet()
+        tryBalance()
         return
       }
 
@@ -181,20 +199,25 @@ export function useWallet(): UseWalletReturn {
         setIsSending(true)
         setError(null)
         try {
-          // Use our helper
           const txHash = await sendKasTip(recipientAddress, amount)
 
-          // Refresh balance after sending (don't let this fail disconnect the wallet)
-          getKasWareBalance()
-            .then((newBalance) => {
-              if (typeof newBalance === 'number') {
-                setBalance(newBalance)
-              }
-            })
-            .catch((err) => {
-              console.warn('Failed to refresh balance after tip:', err)
-              // Don't disconnect wallet just because balance refresh failed
-            })
+          // Delay balance refresh so wallet/network has time to update, then retry once on failure
+          const refreshBalance = (delayMs: number) => {
+            setTimeout(() => {
+              getKasWareBalance()
+                .then((newBalance) => {
+                  if (typeof newBalance === 'number') setBalance(newBalance)
+                })
+                .catch(() => {
+                  setTimeout(() => {
+                    getKasWareBalance()
+                      .then((b) => typeof b === 'number' && setBalance(b))
+                      .catch(() => {})
+                  }, 1500)
+                })
+            }, delayMs)
+          }
+          refreshBalance(1500)
 
           return { txHash, status: 'pending' }
         } catch (err) {

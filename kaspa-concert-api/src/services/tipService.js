@@ -65,3 +65,22 @@ export function getTips(sessionId) {
 export function getAllTips() {
     return tipsCache
 }
+
+/**
+ * Compute totalTips and tipsCount from persisted tips for a session.
+ * Use this to keep list/get session responses in sync with tips data.
+ * @param {string} sessionId
+ * @returns {{ totalTips: number, tipsCount: number }}
+ */
+export function getSessionTotalsFromTips(sessionId) {
+    const tips = tipsCache[sessionId] || []
+    let totalTips = 0
+    let tipsCount = 0
+    for (const t of tips) {
+        if (t.status === 'confirmed' && typeof t.amount === 'number') {
+            totalTips += t.amount
+            tipsCount += 1
+        }
+    }
+    return { totalTips, tipsCount }
+}
